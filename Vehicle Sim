@@ -1,0 +1,262 @@
+   local VLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/vep1032/VepStuff/main/VL"))()
+
+local s = VLib:Window("RED HUB", "Vehicle Simulator", "VS")
+
+local ss = s:Tab("Main")
+
+ss:Button("Infinite Nitro",function()
+local newindex
+
+newindex = hookmetamethod(game, "__newindex", function(...)
+    local args = {...}
+    if args[1].Name == "NitroAmount" and not checkcaller() then
+        return
+    end
+    return newindex(...)
+end)
+end)
+ss:Button("Money AutoFarm",function()
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local LocalPlayer = Players.LocalPlayer
+local CurrentCamera = workspace.CurrentCamera
+
+local function GetCar()
+    local Car = nil
+    
+    for i,v in pairs(workspace.Vehicles:GetChildren()) do
+        if (v:FindFirstChild("owner")) then
+            if (v.owner.Value == LocalPlayer.Name) then
+                Car = v
+            end
+        end
+    end
+    
+    return Car
+end
+
+RunService.Stepped:Connect(function()
+    local Car = GetCar()
+    
+    if (Car) then
+        ReplicatedStorage.Simchassis.Modules.VehicleSeats.seat_player:InvokeServer(Car.Chassis:WaitForChild("VehicleSeat"))
+        
+        if (not CurrentCamera:FindFirstChild("SimCloud")) then
+            ReplicatedStorage["Game Modes V2"].Shared.Remotes.RemoteFunctions.join_mode:InvokeServer(14)
+        end
+        
+        for i,v in pairs(Car:GetDescendants()) do
+            if (v:IsA("Part")) then
+                v.CFrame = CFrame.new(v.Position.X, 500, v.Position.Z)
+                v.CanCollide = false
+                
+                if (not v:FindFirstChild("BodyVelocity")) then
+                    local Velocity = Instance.new("BodyVelocity", v)
+                    
+                    Velocity.Velocity = Vector3.new()
+                    Velocity.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                    Velocity.P = 1250
+                end
+                
+                for i2,v2 in pairs(CurrentCamera:GetChildren()) do
+                    if (v2.Name:find("Checkpoint")) then
+                        v.CFrame = CFrame.new(v2.Position.X, 500, v2.Position.Z)
+                    end
+                end
+            end
+        end
+    end
+end)
+end)
+ss:Toggle("Crates AutoFarm",function(state)
+jjsploit = State
+game:GetService("RunService").Stepped:connect(
+    function()
+        if jjsploit then
+            game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        end
+    end
+)
+game:GetService "Players".LocalPlayer.Character:FindFirstChildOfClass "Humanoid":ChangeState("Jumping")
+while wait() and jjsploit do
+    wait(0.5)
+    local v = workspace:GetChildren()
+    for i = 1, #v do
+        if v[i].ClassName == "Model" then
+            local v2 = v[i]:GetChildren()
+            for i = 1, #v2 do
+                if v2[i].ClassName == "Model" then
+                    local v3 = v2[i]:GetChildren()
+                    for i = 1, #v3 do
+                        if v3[i].ClassName == "MeshPart" then
+                            if v3[i]:FindFirstChild("Smoke") then
+                                game.Players.LocalPlayer.Character:MoveTo(v3[i].CFrame.p)
+                                wait()
+                                game.Players.LocalPlayer.Character.Humanoid:MoveTo(v3[i].CFrame.p)
+                                wait(4)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+end)
+ss:Toggle("Miles AutoFarm",function(State)
+Miles = State
+findCar()
+myCar.Handling.MaxSpeed.Value = 1000
+myCar.Handling.Torque.Value = 50000
+myCar.Handling.SteeringRadiusConstant.Value = 15000
+myCar.Handling.FrictionRoad.Value = 250
+myCar.Handling.Nitro.NitroSpeed.Value = 5000
+myCar.Handling.Nitro.NitroForce.Value = 10000
+myCar.Handling.TurboJump.TurboJumpHeight.Value = 250
+spawn(
+    function()
+        while Miles do
+            wait()
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, "W", false, uwu)
+        end
+    end
+)
+while Miles do
+    game.workspace.Gravity = 500
+    vehicle:SetPrimaryPartCFrame(CFrame.new(3106.53198, 235.20755, -335.314545))
+    wait(1)
+end
+if not Miles then
+    game.workspace.Gravity = 196.2
+end
+
+end)
+ss:Button("Super Car",function()
+    FindPlayersCar()
+    PlayerCar.Handling.Braking.Value = 100000
+    PlayerCar.Handling.MaxSpeed.Value = 1000
+    PlayerCar.Handling.Torque.Value = 100000
+    PlayerCar.Handling.FrictionOffRoad.Value = math.huge
+    PlayerCar.Handling.FrictionRoad.Value = math.huge
+    PlayerCar.Handling.Nitro.NitroSpeed.Value = math.huge
+    PlayerCar.Handling.Nitro.NitroForce.Value = 250000
+    PlayerCar.Handling.Nitro.NitroRegen.Value = math.huge
+    Workspace.Gravity = 1000
+end)
+ss:Toggle("B Fly",function(State)
+fly = State
+local Max = 0
+local Players = game.Players
+local LP = Players.LocalPlayer
+local Mouse = LP:GetMouse()
+Mouse.KeyDown:connect(function(k)
+if k:lower() == 'b' then
+Max = Max + 1
+getgenv().Fly = false
+if fly then
+local T = LP.Character.UpperTorso
+local S = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+local S2 = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+local SPEED = 5
+local function FLY()
+getgenv().Fly = true
+local BodyGyro = Instance.new('BodyGyro', T)
+local BodyVelocity = Instance.new('BodyVelocity', T)
+BodyGyro.P = 9e4
+BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+BodyGyro.cframe = T.CFrame
+BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+BodyVelocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+spawn(function()
+repeat
+wait()
+LP.Character.Humanoid.PlatformStand = false
+if S.L + S.R ~= 0 or S.F + S.B ~= 0 then
+SPEED = 200
+elseif not (S.L + S.R ~= 0 or S.F + S.B ~= 0) and SPEED ~= 0 then
+SPEED = 0
+end
+if (S.L + S.R) ~= 0 or (S.F + S.B) ~= 0 then
+BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S.F + S.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S.L + S.R, (S.F + S.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+S2 = {
+F = S.F,
+B = S.B,
+L = S.L,
+R = S.R
+}
+elseif (S.L + S.R) == 0 and (S.F + S.B) == 0 and SPEED ~= 0 then
+BodyVelocity.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (S2.F + S2.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(S2.L + S2.R, (S2.F + S2.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+else
+BodyVelocity.velocity = Vector3.new(0, 0.1, 0)
+end
+BodyGyro.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+until not getgenv().Fly
+S = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+S2 = {
+F = 0,
+B = 0,
+L = 0,
+R = 0
+}
+SPEED = 0
+BodyGyro:destroy()
+BodyVelocity:destroy()
+LP.Character.Humanoid.PlatformStand = false
+end)
+end
+Mouse.KeyDown:connect(function(k)
+if k:lower() == 'w' then
+S.F = 1
+elseif k:lower() == 's' then
+S.B = -1
+elseif k:lower() == 'a' then
+S.L = -1
+elseif k:lower() == 'd' then
+S.R = 1
+end
+end)
+Mouse.KeyUp:connect(function(k)
+if k:lower() == 'w' then
+S.F = 0
+elseif k:lower() == 's' then
+S.B = 0
+elseif k:lower() == 'a' then
+S.L = 0
+elseif k:lower() == 'd' then
+S.R = 0
+end
+end)
+FLY()
+if Max == 2 then
+getgenv().Fly = false
+Max = 0
+end
+end
+end
+end)
+end)
+ss:Toggle("Infinite Jump",function(State)
+Infinite = State
+game:GetService("UserInputService").JumpRequest:connect(function()
+	if Infinite then
+		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+	end
+end) end)
